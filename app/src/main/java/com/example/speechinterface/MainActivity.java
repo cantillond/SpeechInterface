@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else {
                         // Ask the user to touch the screen to start
+                        textToSpeech.setSpeechRate(0.85f);
                         feedback("Tap the screen for menu options");
                     }
                 }
