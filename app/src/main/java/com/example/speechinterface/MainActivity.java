@@ -23,6 +23,7 @@ import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Intent objectSpeechRecognizerIntent;
     private Vibrator vibrator;
     private final ArrayList<String> objectsList = new ArrayList<>();
+    private Button[] buttons = new Button[9];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +52,16 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
-
-
         // Add objects
         objectsList.add("table");
         objectsList.add("laptop");
         objectsList.add("bowl");
+
+        // Create buttons
+        for (int i = 0; i < buttons.length; i++){
+            int res = getResources().getIdentifier("button"+ (i), "id", getPackageName());
+            buttons[i] = (Button) findViewById(res);
+        }
 
         // Ask permission for microphone
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
@@ -104,6 +110,44 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+        for(int i = 0; i < buttons.length; i++){
+            int n = i;
+            buttons[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    switch (n) {
+                        case 0:
+                            feedback("Object Detected");
+                            break;
+                        case 1:
+                            feedback("Up");
+                            break;
+                        case 2:
+                            feedback("Turn left");
+                            break;
+                        case 3:
+                            feedback("Turn Right");
+                            break;
+                        case 4:
+                            feedback("Down");
+                            break;
+                        case 5:
+                            feedback("Forward");
+                            break;
+                        case 6:
+                            feedback("Move left");
+                            break;
+                        case 7:
+                            feedback("Move right");
+                            break;
+                        case 8:
+                            feedback("Backward");
+                            break;
+                    }
+                }
+            });
+        }
     }
 
     // This method asks and takes command
